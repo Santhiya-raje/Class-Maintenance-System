@@ -1,0 +1,59 @@
+body {
+    background-image: url('image1.jpg');
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 20px;
+    background-size: cover;
+	background-position: center;
+            }
+.file-list {
+    margin: 20px 0;
+}
+.file-list button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    cursor: pointer;
+    text-align: left;
+    font-size: 16px;
+}
+.status {
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 18px;
+}
+.accepted {
+    color: green;
+}
+.rejected {
+    color: red;
+}
+.file-content {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    display: none;
+}
+.file-actions {
+    margin-top: 20px;
+    text-align: center;
+}
+.file-actions button {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.accept-btn {
+    background-color: #28a745;
+    color: white;
+}
+.reject-btn {
+    background-color: #dc3545;
+    color: white;
+}

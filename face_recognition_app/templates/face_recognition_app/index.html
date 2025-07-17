@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Letter Submission</title>
+    {% load static %}
+    <style>
+        body {
+            background-image: url("{% static 'face_recognition_app/css/image1.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Open Sans', sans-serif;
+        }
+        .container {
+            width: 60%;
+            margin: 50px auto;
+            background: rgb(0, 36, 70);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .text-editor {
+            width: 100%;
+            height: 300px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            resize: vertical;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .back-to-home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 20px;
+            text-decoration: none;
+            color: #007bff;
+            display: flex;
+            align-items: center;
+        }
+        .back-to-home i {
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <a href="{% url 'studentlogin' %}" class="back-to-home">
+        <i class="fa fa-arrow-left"></i> 
+    </a>
+    <div class="container">
+        <h1 style="color: aliceblue;">Leave Letter Submission</h1>
+        <form method="POST" action="{% url 'submit_letter' %}">
+            {% csrf_token %}
+            <input type="text" name="filename" placeholder="Enter filename (optional)" /><br><br>
+            <textarea name="leave_letter" class="text-editor" placeholder="Write your leave letter here..."></textarea><br>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

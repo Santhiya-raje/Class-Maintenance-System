@@ -1,0 +1,68 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="{% static 'face_recognition_app/css/style.css' %}">
+    <title>About Us</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .about-box {
+            background-color: white;
+            width: 80%;
+            max-width: 600px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            text-align: center;
+        }
+        .about-box h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .about-box p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #555;
+        }
+        .back-to-home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 20px;
+            text-decoration: none;
+            color: #007bff;
+            display: flex;
+            align-items: center;
+        }
+        .back-to-home i {
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <a href="{% url 'class' %}" class="back-to-home">
+        <i class="fa fa-arrow-left"></i> 
+    </a>
+
+    <div class="about-box">
+        <h1>About Us</h1>
+        <p>This College Maintenance System Website helps students to interact with professors. They can view their attendance details, including the total number of periods they were present and absent. Additionally, students can send request letters to the respective faculty.</p>
+        <p>This website also helps professors take attendance, save attendance details, and view them when needed. Professors can also receive request letters from students and either permit or reject the letters.</p>
+        <p>With a valid username and password, both professors and students can log in to the website.</p>
+    </div>
+
+</body>
+</html>

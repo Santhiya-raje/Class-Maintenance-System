@@ -1,0 +1,117 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="{% static 'face_recognition_app/css/style.css' %}">
+    <title>View Attendance</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #table-container {
+            width: 80%;
+            max-height: 400px; /* Set the max height for the scrollable area */
+            overflow-y: auto;   /* Enables vertical scrolling */
+            border: 1px solid #ccc;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+        .back-to-home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 20px;
+            text-decoration: none;
+            color: #007bff;
+            display: flex;
+            align-items: center;
+        }
+        .back-to-home i {
+            margin-right: 8px;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        td {
+            background-color: white;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+    <a href="{% url 'adminlogin' %}" class="back-to-home">
+        <i class="fa fa-arrow-left"></i> 
+    </a>
+    <h2>Attendance Data</h2>
+    <input type="file" id="file-input" accept=".xls,.xlsx" />
+    <div id="table-container"></div>
+
+    <script>
+        document.getElementById('file-input').addEventListener('change', handleFile, false);
+
+        function handleFile(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, {type: 'array'});
+                
+                // Get the first sheet
+                const firstSheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[firstSheetName];
+                
+                // Convert the sheet to JSON format
+                const jsonData = XLSX.utils.sheet_to_json(worksheet, {header: 1});
+                
+                renderTable(jsonData);
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function renderTable(data) {
+            let table = '<table><thead><tr>';
+
+            // Add headers from the first row
+            data[0].forEach(header => {
+                table += `<th>${header}</th>`;
+            });
+            table += '</tr></thead><tbody>';
+
+            // Add the remaining rows
+            data.slice(1).forEach(row => {
+                table += '<tr>';
+                row.forEach(cell => {
+                    table += `<td>${cell || ''}</td>`;
+                });
+                table += '</tr>';
+            });
+            table += '</tbody></table>';
+
+            document.getElementById('table-container').innerHTML = table;
+        }
+    </script>
+</body>
+</html>

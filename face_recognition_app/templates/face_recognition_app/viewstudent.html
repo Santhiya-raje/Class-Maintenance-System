@@ -1,0 +1,155 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Student Attendance</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="{% static 'face_recognition_app/css/style.css' %}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js" integrity="sha512-9evF8HjYQGZBrs2sKgKQ9N/1w3g3qrcyB2KpF0ZAsJ0C7Zz3gJqmfjMMmaSg2D4cVZ4aYF5zAYf3Z/1rb5p4Pg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>
+
+        body {
+            height:100vh;
+	        background-image: url("{% static 'face_recognition_app/images/image1.jpg' %}");
+	        background-size: cover;
+	        background-position: center;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            position: relative;
+        }
+        .attendance-container {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 400px;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        .attendance-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .attendance-table th, .attendance-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+        .attendance-table th {
+            background-color: #007bff;
+            color: white;
+            text-align: left;
+        }
+        .back-to-home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 20px;
+            text-decoration: none;
+            color: #007bff;
+            display: flex;
+            align-items: center;
+        }
+        .back-to-home i {
+            margin-right: 8px;
+        }
+        .error-message {
+            color: red;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="attendance-container">
+        <h2>Student Attendance</h2>
+        <table class="attendance-table">
+            <tr>
+                <th>Name</th>
+                <td id="student-name">Loading...</td>
+            </tr>
+            <tr>
+                <th>Total Periods Present</th>
+                <td id="periods-present">Loading...</td>
+            </tr>
+            <tr>
+                <th>Total Periods Absent</th>
+                <td id="periods-absent">Loading...</td>
+            </tr>
+            <tr>
+                <th>Total Periods</th>
+                <td id="total-periods">Loading...</td>
+            </tr>
+        </table>
+        <a href="{% url 'studentlogin' %}" class="back-to-dashboard">Back</a>
+        <div id="error" class="error-message"></div>
+    </div>
+
+    <script>
+        // Function to get query parameters from URL
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // Function to load CSV and display student data
+        function loadStudentData(username) {
+    Papa.parse("data.csv", {
+        download: true,
+        header: true,
+        skipEmptyLines: true,
+        complete: function(results) {
+            const data = results.data;
+            console.log("CSV Data:", data); // Debugging line to see the loaded CSV data
+
+            const studentData = data.reduce((acc, row) => {
+                if (row.Username.toLowerCase() === username.toLowerCase()) {
+                    acc.name = row.Name; // Assuming name is the same for all rows
+                    acc.present += parseInt(row.Present) || 0;
+                    acc.absent += parseInt(row.Absent) || 0;
+                    acc.total += (parseInt(row.Present) || 0) + (parseInt(row.Absent) || 0);
+                }
+                return acc;
+            }, { name: '', present: 0, absent: 0, total: 0 });
+
+            if (studentData.name) {
+                document.getElementById('student-name').textContent = studentData.name;
+                document.getElementById('periods-present').textContent = studentData.present;
+                document.getElementById('periods-absent').textContent = studentData.absent;
+                document.getElementById('total-periods').textContent = studentData.total;
+            } else {
+                document.querySelector('.attendance-table').style.display = 'none';
+                document.getElementById('error').textContent = "No attendance data found for the provided username.";
+            }
+        },
+        error: function(error) {
+            console.error("Error loading CSV:", error);
+            document.getElementById('error').textContent = "Failed to load attendance data.";
+        }
+    });
+}
+
+window.onload = function() {
+    const username = getQueryParam('username');
+    console.log("Username from query param:", username); // Debugging line to see the username
+    if (!username) {
+        document.querySelector('.attendance-table').style.display = 'none';
+        document.getElementById('error').textContent = "No username provided.";
+        return;
+    }
+    loadStudentData(username);
+};
+
+    </script>
+</body>
+</html>
+
+

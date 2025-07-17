@@ -1,0 +1,79 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
+}
+
+body {
+    height: 100vh;
+    background-image: url('image1.jpg'); /* Adjust the path if necessary */
+    background-size: cover;
+    background-position: center;
+    color: #ffffff; /* Default text color */
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input[type="text"] {
+    padding: 0.5rem;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    width: 300px; /* Fixed width for input */
+}
+
+button {
+    background-color: orange; /* Button color */
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: darkorange; /* Darker shade on hover */
+}
+
+p {
+    font-size: 1.2rem;
+    text-align: center;
+    margin: 1rem 0; /* Space between paragraphs */
+}
+
+a {
+    color: #fff;
+    font-size: 1rem;
+    text-decoration: underline; /* Underline for links */
+}
+
+a:hover {
+    color: orange; /* Change color on hover */
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem; /* Smaller font size on mobile */
+    }
+
+    input[type="text"] {
+        width: 80%; /* Responsive width */
+    }
+
+    button {
+        width: 80%; /* Make button responsive */
+    }
+}

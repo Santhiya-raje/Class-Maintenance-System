@@ -1,0 +1,137 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="{% static 'face_recognition_app/css/request.css' %}">
+    <title> Student Requests</title>
+</head>
+<style>
+    .back-to-home {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        font-size: 20px;
+        text-decoration: none;
+        color: #007bff;
+        display: flex;
+        align-items: center;
+    }
+    .back-to-home i {
+        margin-right: 8px;
+    }
+</style>
+<body>
+    <a href="{% url 'adminlogin' %}" class="back-to-home">
+        <i class="fa fa-arrow-left"></i> 
+    </a>
+    <h2><font color=#FFFFFF>Student Requests</font></h2>
+    
+    <div class="file-list" id="fileList">
+        <!-- Dynamically generated list of files -->
+    </div>
+
+    <div class="file-content" id="fileContent">
+        <h3 id="fileName">File Content</h3>
+        <pre id="fileText">Content of the file will be displayed here.</pre>
+        
+        <div class="file-actions">
+            <button class="accept-btn" onclick="handleAction('accepted')">Accept</button>
+            <button class="reject-btn" onclick="handleAction('rejected')">Reject</button>
+        </div>
+    </div>
+    
+    {% csrf_token %}
+    
+    <script>
+        const fileList = document.getElementById('fileList');
+        const fileContent = document.getElementById('fileContent');
+        const fileNameElement = document.getElementById('fileName');
+        const fileTextElement = document.getElementById('fileText');
+        
+        // Fetch the list of files from the backend
+        fetch('/files')
+            .then(response => response.json())
+            .then(files => {
+                fileList.innerHTML = ''; // Clear the file list
+                files.forEach(file => {
+                    const fileButton = document.createElement('button');
+                    fileButton.innerText = file.name;
+
+                    // Display status icon if available
+                    if (file.status === 'accepted' || file.status === 'rejected') {
+                        const statusSpan = document.createElement('span');
+                        statusSpan.classList.add('status', file.status);
+                        statusSpan.innerHTML = file.status === 'accepted' ? '✔' : '✖';
+                        fileButton.appendChild(statusSpan);
+                    }
+
+                    fileButton.onclick = () => loadFile(file.name);
+                    fileList.appendChild(fileButton);
+                });
+            })
+            .catch(error => console.error('Error fetching file list:', error));
+
+        // Load the content of the selected file
+        function loadFile(fileName) {
+            console.log("Loading file:", fileName);  // Debug line
+            fetch(`/files/${encodeURIComponent(fileName)}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`File not found: ${fileName}`);
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    fileNameElement.innerText = fileName;
+                    fileTextElement.innerText = data;
+                    fileContent.style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('Error loading file:', error);
+                    alert(`Error loading file: ${fileName}`);
+                });
+        }
+
+        // Handle Accept/Reject actions
+        function handleAction(action) {
+            const currentFile = fileNameElement.innerText;
+
+            // Fetch CSRF token
+            const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            fetch(`/files/${encodeURIComponent(currentFile)}/status/`, {  // Ensure trailing slash here
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken  // Add CSRF token here
+                },
+                body: JSON.stringify({ action: action })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.message);
+                
+                // Update UI with status
+                const statusSpan = document.querySelector(`[data-file="${currentFile}"]`) ||
+                    document.createElement('span');
+                statusSpan.setAttribute('data-file', currentFile);
+                statusSpan.className = `status ${action}`;
+                statusSpan.innerHTML = action === 'accepted' ? '✔' : '✖';
+
+                // Append or update status on button
+                const correspondingButton = Array.from(fileList.children).find(btn => btn.innerText === currentFile);
+                if (!correspondingButton.contains(statusSpan)) {
+                    correspondingButton.appendChild(statusSpan);
+                }
+
+                fileContent.style.display = 'none'; // Hide file content after action
+            })
+            .catch(error => console.error('Error updating status:', error));
+        }
+    </script>
+</body>
+</html>

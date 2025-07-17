@@ -1,0 +1,89 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="{% static 'face_recognition_app/css/style.css' %}">
+    <title>Student Dashboard</title>
+    <style>
+        body {
+            background-image: url("{% static 'face_recognition_app/images/image1.jpg' %}"); /* Update with correct path */
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .dashboard-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .dashboard-container h2 {
+            margin-bottom: 20px;
+        }
+        .dashboard-container button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .dashboard-container button:hover {
+            background-color: #0056b3;
+        }
+        .back-to-home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 20px;
+            text-decoration: none;
+            color: #007bff;
+            display: flex;
+            align-items: center;
+        }
+        .back-to-home i {
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <a href="{% url 'student' %}" class="back-to-home">
+        <i class="fa fa-arrow-left"></i> 
+    </a>
+    <div class="dashboard-container">
+        <h2>Student Dashboard</h2>
+        <button id="viewstudentAttendanceBtn">View Attendance</button>
+
+        <script>
+            document.getElementById('viewstudentAttendanceBtn').onclick = function() {
+                window.location.href = "{% url 'attendance' %}";
+            };
+        </script>
+        <button id="sendrequestletterBtn">student request letter</button>
+
+<script>
+    document.getElementById('sendrequestletterBtn').onclick = function() {
+        window.location.href = "{% url 'index' %}";
+    };
+</script>
+<button id="requeststatusviewBtn"> request status</button>
+<script>
+    document.getElementById('requeststatusviewBtn').onclick=function(){
+        window.location.href="{% url 'requeststatus' %}";
+    };
+</script>
+
+    </div>
+</body>
+</html>

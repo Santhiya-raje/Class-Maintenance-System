@@ -1,0 +1,243 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" type="text/css" href="{% static 'face_recognition_app/css/style.css' %}">
+    <title>Class</title>
+    <style>
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'open Sans',sans-serif;
+	
+}
+body{
+	height:100vh;
+	background-size: cover;
+	background-position: center;
+
+}
+li{
+	list-style: none;
+}
+a{
+	text-decoration: none;
+	color:#fff;
+	font-size: lrem;
+
+}
+a:hover{
+	color:orange;
+
+}
+header{
+	position: relative;
+	padding: 0 2rem;
+}
+.navbar{
+	width:100%;
+	height: 60px;
+	max-width: 1200px;
+	margin: 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.navbar .logo a{
+	font-size: 1.5rem;
+	font-weight: bold;
+}
+
+.navbar .links{
+	display: flex;
+	gap: 2rem;
+
+}
+.navbar .toggle_btn{
+	color: #fff;
+	font-size: 1.5rem;
+	cursor: pointer;
+	display: none;
+
+}
+.action_btn{
+	background-color: orange;
+	color: #fff;
+	padding: 0.5rem 1rem;
+	border: none;
+	outline: none;
+	border-radius: 20px;
+	font-size: 0.8rem;
+	font-weight: bold;
+	cursor: pointer;
+	transition: scale .2 ease;
+
+}
+
+.action_btn:hover{
+	scale: 1.05;
+	color: #fff;
+
+}
+.action_btn:active{
+	scale: 0.95;
+
+}
+/*DROPDOWN MENU*/
+
+.dropdown_menu{
+	position: absolute;
+	right: 2rem;
+	top: 60px;
+	height: 0;
+	width: 300px;
+	background: rgba(255, 255, 255, 0.1);
+	backdrop-filter: blur(15px);
+	border-radius: 10px;
+	overflow: hidden;
+	transition: height .2s cubic-bezier(0.175,0.885,0.32,1.275);
+
+}
+.dropdown_menu.open{
+	height: 240px;
+
+
+}
+
+.dropdown_menu li{
+	padding: 0.7rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.dropdown_menu .action_btn{
+	width: 100%;
+	display: flex; 
+	justify-content: center;
+
+
+}
+section#hero{
+	height: calc(100vh - 60px);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	color: #fff;
+}
+
+#hero h1{
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+@media(max-width:992px)
+{
+	.navbar .links,
+	.navbar .action_btn{
+		display: none;
+	}
+
+	.navbar .toggle_btn{
+		display: block;
+	}
+
+	.dropdown_menu{
+		display: block;
+	}
+
+}
+@media(max-width:576px)
+{
+	.dropdown_menu{
+		left: 2rem;
+		width: unset;
+	}
+}
+@font-face {
+            font-family: 'Blackadder ITC';
+            src: local('Blackadder ITC'); /* Load from local font */
+        }
+		@font-face {
+            font-family: 'Book Antiqua';
+            src: local('Book Antiqua');
+        }
+.title {
+            font-family:'Times New Roman', Times, serif;
+            font-size: 36px;
+            color:white; /* Darker shade for the title */
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .description {
+            font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-size: 20px;
+            color:white; /* Gray color for description */
+            text-align: center;
+            line-height: 1.6;
+            margin: 10px auto;
+            width: 80%;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo"><a href="#">ACGCET</a></div>
+        <ul class="links">
+            <li><a href="#hero">Home</a></li>
+            <li><a href="{% url 'admin' %}">Admin</a></li>
+            <li><a href="{% url 'student' %}">Student</a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
+        </ul>
+        <!-- Removed the href="#" and kept only the action_btn class to toggle the dropdown -->
+        <a href="#" class="action_btn">Get Started</a>
+        <div class="toggle_btn">
+            <i class="fa fa-bars" aria-hidden="true"></i>
+        </div>
+    </div>
+
+    <div class="dropdown_menu">
+        <li><a href="#hero">Home</a></li>
+        <li><a href="{% url 'admin' %}">Admin</a></li>
+        <li><a href="{% url 'student' %}">Student</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
+        <li><a href="#" class="action_btn">Get Started</a></li>
+    </div>
+
+    <main>
+        <section id="hero">
+            <h1 class="title">Class  Maintenance  System</h1>
+    <p class="description">
+        Automating attendance management for better classroom organization.<br>
+        Simplifying the process of monitoring and maintaining class attendance.
+    </p>
+        </section>
+    </main>
+
+    <script>
+        // Toggle the dropdown menu when the toggle button (hamburger icon) is clicked
+        const toggleBtn = document.querySelector('.toggle_btn');
+        const toggleBtnIcon = document.querySelector('.toggle_btn i');
+        const dropDownMenu = document.querySelector('.dropdown_menu');
+
+        toggleBtn.onclick = function () {
+            dropDownMenu.classList.toggle('open');
+            const isOpen = dropDownMenu.classList.contains('open');
+            toggleBtnIcon.className = isOpen ? 'fa fa-xmark' : 'fa fa-bars';
+        }
+    </script>
+</body>
+</html>

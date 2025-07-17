@@ -1,0 +1,79 @@
+/* style.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #fff; /* Text color for contrast */
+    background-color: rgba(0, 0, 0, 0.8); /* Dark background for contrast */
+}
+
+h1 {
+    color: rgb(19, 212, 54);
+    text-align: center;
+    margin-top: 20px;
+}
+
+.file-list {
+    margin: 20px auto;
+    max-width: 800px; /* Limit the width of the file list */
+}
+
+.file-box {
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: rgba(255, 255, 255, 0.1); /* Light transparent background */
+    position: relative;
+}
+
+.file-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.file-details {
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+.file-actions {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-around; /* Distribute buttons evenly */
+}
+
+.accept-btn, .reject-btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.accept-btn {
+    background-color: #28a745;
+    color: white;
+}
+
+.reject-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.approved {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: #28a745; /* Green for approved */
+    font-size: 20px;
+}
+
+.rejected {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: #dc3545; /* Red for rejected */
+    font-size: 20px;
+}

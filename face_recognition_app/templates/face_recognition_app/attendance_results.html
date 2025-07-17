@@ -1,0 +1,42 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+    <link rel="stylesheet" href="{% static 'face_recognition_app/css/style1.css' %}">
+    <title>Attendance Results</title>
+</head>
+<style>
+    .back-to-home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 20px;
+            text-decoration: none;
+            color: #007bff;
+            display: flex;
+            align-items: center;
+        }
+        .back-to-home i {
+            margin-right: 8px;
+        }
+</style>
+<body>
+    <a href="{% url 'attendance' %}" class="back-to-home">
+        <i class="fa fa-arrow-left"></i> 
+    </a>
+    <header>
+        <h1>Attendance Results</h1>
+    </header>
+    <section id="hero">
+        {% if user_not_found %}
+            <p>User not found or no attendance data available.</p>
+        {% else %}
+            <p>Total Present: {{ total_present }}</p>
+            <p>Total Absent: {{ total_absent }}</p>
+        {% endif %}
+    </section>
+</body>
+</html>
